@@ -84,6 +84,7 @@ function App() {
             required
             placeholder="front"
             value={front}
+            autoFocus
             onChange={(event) => setFront(event.target.value)}
           />
           <input
