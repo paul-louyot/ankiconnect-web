@@ -1,1 +1,26 @@
 @import "tailwindcss";
+
+@utility form-control {
+  @apply border rounded-sm border-gray-500;
+  @apply outline-none;
+  @apply focus:border-black focus:text-black;
+  @apply h-9;
+  @apply px-2 py-1;
+}
+
+.input {
+  @apply form-control;
+}
+
+.select {
+  @apply form-control;
+}
+
+.btn {
+  @apply border rounded-sm border-gray-500 text-gray-500;
+  @apply px-2 py-1;
+  @apply h-9;
+  @apply outline-none;
+  @apply hover:border-black hover:cursor-pointer hover:text-black;
+  @apply focus:border-black focus:cursor-pointer focus:text-black;
+}
