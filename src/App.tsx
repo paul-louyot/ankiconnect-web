@@ -6,6 +6,8 @@ import {
   useNotesAddedToday,
 } from "./lib/ankiConnectQueries";
 
+const DECK_NAME_STORAGE_KEY = "ankiCreator.deckName";
+
 function App() {
   const [front, setFront] = useState("");
   const [back, setBack] = useState("");
@@ -19,10 +21,22 @@ function App() {
   const isConnected = connectionStatus.data?.permission === "granted";
 
   useEffect(() => {
-    if (deckName === "" && deckNames.data && deckNames.data.length > 0) {
+    if (deckName !== "" || !deckNames.data || deckNames.data.length === 0) {
+      return;
+    }
+
+    const storedDeckName = localStorage.getItem(DECK_NAME_STORAGE_KEY);
+    if (storedDeckName && deckNames.data.includes(storedDeckName)) {
+      setDeckName(storedDeckName);
+    } else {
       setDeckName(deckNames.data[0]);
     }
   }, [deckName, deckNames.data]);
+
+  function handleDeckNameChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    setDeckName(event.target.value);
+    localStorage.setItem(DECK_NAME_STORAGE_KEY, event.target.value);
+  }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -56,6 +70,7 @@ function App() {
             name="front"
             className="input"
             size={40}
+            autoComplete="off"
             value={front}
             onChange={(event) => setFront(event.target.value)}
           />
@@ -64,6 +79,7 @@ function App() {
             name="back"
             className="input"
             size={40}
+            autoComplete="off"
             value={back}
             onChange={(event) => setBack(event.target.value)}
           />
@@ -71,7 +87,7 @@ function App() {
             name="deckName"
             className="select"
             value={deckName}
-            onChange={(event) => setDeckName(event.target.value)}
+            onChange={handleDeckNameChange}
           >
             {deckNames.data?.map((name) => (
               <option key={name}>{name}</option>
