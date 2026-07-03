@@ -80,12 +80,6 @@ function App() {
   return (
     <>
       <div className="h-dvh flex flex-col items-center gap-6 p-6">
-        {!isConnected && (
-          <p className="text-red-600">
-            Anki is not running or not accepting connections.
-          </p>
-        )}
-
         <form className="flex flex-col gap-4 w-80" onSubmit={handleSubmit}>
           <Input
             type="text"
@@ -134,17 +128,27 @@ function App() {
           </Button>
         </form>
 
+        {!connectionStatus.isPending && !isConnected && (
+          <p className="text-red-600">
+            Anki is not running or not accepting connections.
+          </p>
+        )}
+
         <div className="flex-1 flex flex-col gap-2 overflow-auto">
-          <h2>Notes added today</h2>
-          <ul className="flex flex-col gap-1">
-            {notesAddedToday.data?.map((note) => (
-              <li key={note.noteId}>
-                {Object.values(note.fields)
-                  .map((field) => field.value)
-                  .join(" — ")}
-              </li>
-            ))}
-          </ul>
+          {notesAddedToday.isFetched && notesAddedToday.data?.length && (
+            <>
+              <h2>Notes added today</h2>
+              <ul className="flex flex-col gap-1">
+                {notesAddedToday.data.map((note) => (
+                  <li key={note.noteId}>
+                    {Object.values(note.fields)
+                      .map((field) => field.value)
+                      .join(" — ")}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </div>
       </div>
     </>
