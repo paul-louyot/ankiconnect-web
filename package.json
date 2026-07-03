@@ -4,8 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "tsc -b && vite build",
+    "deploy:prod": "netlify deploy --prod",
+    "deploy": "netlify deploy",
+    "dev": "vite",
     "lint": "oxlint",
     "preview": "vite preview"
   },
