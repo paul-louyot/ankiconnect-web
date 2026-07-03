@@ -1,5 +1,13 @@
 import {useEffect, useState} from "react";
 import {Button} from "@/components/ui/button";
+import {Input} from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   useAnkiConnectionStatus,
   useCreateCard,
@@ -38,9 +46,12 @@ function App() {
     }
   }, [deckName, deckNames.data]);
 
-  function handleDeckNameChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    setDeckName(event.target.value);
-    localStorage.setItem(DECK_NAME_STORAGE_KEY, event.target.value);
+  function handleDeckNameChange(value: string | null) {
+    if (value === null) {
+      return;
+    }
+    setDeckName(value);
+    localStorage.setItem(DECK_NAME_STORAGE_KEY, value);
   }
 
   function handleTagsChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -75,12 +86,10 @@ function App() {
           </p>
         )}
 
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-          <input
+        <form className="flex flex-col gap-4 w-80" onSubmit={handleSubmit}>
+          <Input
             type="text"
             name="front"
-            className="input"
-            size={40}
             autoComplete="off"
             required
             placeholder="front"
@@ -88,31 +97,33 @@ function App() {
             autoFocus
             onChange={(event) => setFront(event.target.value)}
           />
-          <input
+          <Input
             type="text"
             name="back"
-            className="input"
-            size={40}
             autoComplete="off"
             placeholder="back"
             value={back}
             onChange={(event) => setBack(event.target.value)}
           />
-          <select
+          <Select
             name="deckName"
-            className="select"
             value={deckName}
-            onChange={handleDeckNameChange}
+            onValueChange={handleDeckNameChange}
           >
-            {deckNames.data?.map((name) => (
-              <option key={name}>{name}</option>
-            ))}
-          </select>
-          <input
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select a deck" />
+            </SelectTrigger>
+            <SelectContent alignItemWithTrigger={false} className="w-fit">
+              {deckNames.data?.map((name) => (
+                <SelectItem key={name} value={name}>
+                  {name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Input
             type="text"
             name="tags"
-            className="input"
-            size={40}
             autoComplete="off"
             placeholder="tags separated by spaces"
             value={tags}
