@@ -71,6 +71,7 @@ function App() {
             className="input"
             size={40}
             autoComplete="off"
+            required
             value={front}
             onChange={(event) => setFront(event.target.value)}
           />
