@@ -7,11 +7,15 @@ import {
 } from "./lib/ankiConnectQueries";
 
 const DECK_NAME_STORAGE_KEY = "ankiCreator.deckName";
+const TAGS_STORAGE_KEY = "ankiCreator.tags";
 
 function App() {
   const [front, setFront] = useState("");
   const [back, setBack] = useState("");
   const [deckName, setDeckName] = useState("");
+  const [tags, setTags] = useState(
+    () => localStorage.getItem(TAGS_STORAGE_KEY) ?? "",
+  );
 
   const connectionStatus = useAnkiConnectionStatus();
   const deckNames = useDeckNames();
@@ -38,6 +42,11 @@ function App() {
     localStorage.setItem(DECK_NAME_STORAGE_KEY, event.target.value);
   }
 
+  function handleTagsChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setTags(event.target.value);
+    localStorage.setItem(TAGS_STORAGE_KEY, event.target.value);
+  }
+
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     createCard.mutate(
@@ -45,6 +54,7 @@ function App() {
         deckName,
         modelName: "Basic",
         fields: {Front: front, Back: back},
+        tags: tags.split(" ").filter((tag) => tag !== ""),
       },
       {
         onSuccess: () => {
@@ -72,6 +82,7 @@ function App() {
             size={40}
             autoComplete="off"
             required
+            placeholder="front"
             value={front}
             onChange={(event) => setFront(event.target.value)}
           />
@@ -81,6 +92,7 @@ function App() {
             className="input"
             size={40}
             autoComplete="off"
+            placeholder="back"
             value={back}
             onChange={(event) => setBack(event.target.value)}
           />
@@ -94,6 +106,16 @@ function App() {
               <option key={name}>{name}</option>
             ))}
           </select>
+          <input
+            type="text"
+            name="tags"
+            className="input"
+            size={40}
+            autoComplete="off"
+            placeholder="tags separated by spaces"
+            value={tags}
+            onChange={handleTagsChange}
+          />
           <button type="submit" className="btn" disabled={!isConnected}>
             submit
           </button>
