@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {Button} from "@/components/ui/button";
 import {
   useAnkiConnectionStatus,
   useCreateCard,
@@ -117,9 +118,9 @@ function App() {
             value={tags}
             onChange={handleTagsChange}
           />
-          <button type="submit" className="btn" disabled={!isConnected}>
+          <Button type="submit" disabled={!isConnected}>
             submit
-          </button>
+          </Button>
         </form>
 
         <div className="flex flex-col gap-2">
