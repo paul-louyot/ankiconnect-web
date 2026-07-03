@@ -22,7 +22,7 @@ function App() {
       {
         deckName,
         modelName: "Basic",
-        fields: { Front: front, Back: back },
+        fields: {Front: front, Back: back},
       },
       {
         onSuccess: () => {
@@ -47,6 +47,7 @@ function App() {
             type="text"
             name="front"
             className="input"
+            size={40}
             value={front}
             onChange={(event) => setFront(event.target.value)}
           />
@@ -54,6 +55,7 @@ function App() {
             type="text"
             name="back"
             className="input"
+            size={40}
             value={back}
             onChange={(event) => setBack(event.target.value)}
           />

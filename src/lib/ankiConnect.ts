@@ -55,8 +55,10 @@ export interface NoteInfo {
   tags: string[];
   fields: Record<string, { value: string; order: number }>;
   cards: number[];
+  mod: number;
 }
 
-export function getNotesAddedToday(): Promise<NoteInfo[]> {
-  return invoke<NoteInfo[]>("notesInfo", { query: "added:1" });
+export async function getNotesAddedToday(): Promise<NoteInfo[]> {
+  const notes = await invoke<NoteInfo[]>("notesInfo", { query: "added:1" });
+  return notes.sort((a, b) => b.mod - a.mod);
 }

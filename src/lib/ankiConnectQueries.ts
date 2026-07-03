@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {
   checkConnection,
   createCard,
@@ -13,7 +13,6 @@ export function useAnkiConnectionStatus() {
     queryKey: ["ankiConnect", "status"],
     queryFn: checkConnection,
     retry: false,
-    refetchInterval: 5000,
   });
 }
 
@@ -30,7 +29,7 @@ export function useCreateCard() {
   return useMutation({
     mutationFn: (params: CreateCardParams) => createCard(params),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: notesAddedTodayKey });
+      queryClient.invalidateQueries({queryKey: notesAddedTodayKey});
     },
   });
 }
