@@ -2,6 +2,7 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {
   checkConnection,
   createCard,
+  getDeckNames,
   getNotesAddedToday,
   type CreateCardParams,
 } from "./ankiConnect";
@@ -13,6 +14,13 @@ export function useAnkiConnectionStatus() {
     queryKey: ["ankiConnect", "status"],
     queryFn: checkConnection,
     retry: false,
+  });
+}
+
+export function useDeckNames() {
+  return useQuery({
+    queryKey: ["ankiConnect", "deckNames"],
+    queryFn: getDeckNames,
   });
 }
 

@@ -62,3 +62,7 @@ export async function getNotesAddedToday(): Promise<NoteInfo[]> {
   const notes = await invoke<NoteInfo[]>("notesInfo", { query: "added:1" });
   return notes.sort((a, b) => b.mod - a.mod);
 }
+
+export function getDeckNames(): Promise<string[]> {
+  return invoke<string[]>("deckNames");
+}

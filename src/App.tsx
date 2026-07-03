@@ -1,20 +1,28 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {
   useAnkiConnectionStatus,
   useCreateCard,
+  useDeckNames,
   useNotesAddedToday,
 } from "./lib/ankiConnectQueries";
 
 function App() {
   const [front, setFront] = useState("");
   const [back, setBack] = useState("");
-  const [deckName, setDeckName] = useState("All::Dev");
+  const [deckName, setDeckName] = useState("");
 
   const connectionStatus = useAnkiConnectionStatus();
+  const deckNames = useDeckNames();
   const notesAddedToday = useNotesAddedToday();
   const createCard = useCreateCard();
 
   const isConnected = connectionStatus.data?.permission === "granted";
+
+  useEffect(() => {
+    if (deckName === "" && deckNames.data && deckNames.data.length > 0) {
+      setDeckName(deckNames.data[0]);
+    }
+  }, [deckName, deckNames.data]);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -65,10 +73,9 @@ function App() {
             value={deckName}
             onChange={(event) => setDeckName(event.target.value)}
           >
-            <option>All::Dev</option>
-            <option>All::Gen</option>
-            <option>All::Quotes</option>
-            <option>All::Lang::English</option>
+            {deckNames.data?.map((name) => (
+              <option key={name}>{name}</option>
+            ))}
           </select>
           <button type="submit" className="btn" disabled={!isConnected}>
             submit
