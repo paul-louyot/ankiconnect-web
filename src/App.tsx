@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {Button} from "@/components/ui/button";
+import {ConfirmButton} from "@/components/confirm-button";
 import {Input} from "@/components/ui/input";
 import {
   Select,
@@ -157,17 +158,17 @@ function App() {
                       </ItemDescription>
                     </ItemContent>
                     <ItemActions>
-                      <Button
+                      <ConfirmButton
                         variant="outline"
                         size="sm"
                         disabled={
                           deleteNote.isPending &&
                           deleteNote.variables === note.noteId
                         }
-                        onClick={() => deleteNote.mutate(note.noteId)}
+                        onConfirm={() => deleteNote.mutate(note.noteId)}
                       >
                         delete
-                      </Button>
+                      </ConfirmButton>
                     </ItemActions>
                   </Item>
                 ))}
