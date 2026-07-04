@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {Button} from "@/components/ui/button";
 import {ConfirmButton} from "@/components/confirm-button";
 import {Input} from "@/components/ui/input";
@@ -39,6 +39,7 @@ function App() {
   const notesAddedToday = useNotesAddedToday();
   const createCard = useCreateCard();
   const deleteNote = useDeleteNote();
+  const frontInputRef = useRef<HTMLInputElement>(null);
 
   const isConnected = connectionStatus.data?.permission === "granted";
 
@@ -81,6 +82,7 @@ function App() {
         onSuccess: () => {
           setFront("");
           setBack("");
+          frontInputRef.current?.focus();
         },
       },
     );
@@ -91,6 +93,7 @@ function App() {
       <div className="h-dvh flex flex-col items-center gap-6 p-6">
         <form className="flex flex-col gap-4 w-80" onSubmit={handleSubmit}>
           <Input
+            ref={frontInputRef}
             type="text"
             name="front"
             autoComplete="off"
