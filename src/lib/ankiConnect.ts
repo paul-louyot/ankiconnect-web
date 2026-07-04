@@ -66,3 +66,7 @@ export async function getNotesAddedToday(): Promise<NoteInfo[]> {
 export function getDeckNames(): Promise<string[]> {
   return invoke<string[]>("deckNames");
 }
+
+export function deleteNotes(notes: number[]): Promise<null> {
+  return invoke<null>("deleteNotes", { notes });
+}

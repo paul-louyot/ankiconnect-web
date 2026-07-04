@@ -2,6 +2,7 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {
   checkConnection,
   createCard,
+  deleteNotes,
   getDeckNames,
   getNotesAddedToday,
   type CreateCardParams,
@@ -36,6 +37,17 @@ export function useCreateCard() {
 
   return useMutation({
     mutationFn: (params: CreateCardParams) => createCard(params),
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: notesAddedTodayKey});
+    },
+  });
+}
+
+export function useDeleteNote() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (noteId: number) => deleteNotes([noteId]),
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: notesAddedTodayKey});
     },

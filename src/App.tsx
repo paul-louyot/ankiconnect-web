@@ -9,9 +9,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemActions,
+} from "@/components/ui/item";
+import {
   useAnkiConnectionStatus,
   useCreateCard,
   useDeckNames,
+  useDeleteNote,
   useNotesAddedToday,
 } from "./lib/ankiConnectQueries";
 
@@ -30,6 +37,7 @@ function App() {
   const deckNames = useDeckNames();
   const notesAddedToday = useNotesAddedToday();
   const createCard = useCreateCard();
+  const deleteNote = useDeleteNote();
 
   const isConnected = connectionStatus.data?.permission === "granted";
 
@@ -140,11 +148,28 @@ function App() {
               <h2>Notes added today</h2>
               <ul className="flex flex-col gap-1">
                 {notesAddedToday.data.map((note) => (
-                  <li key={note.noteId}>
-                    {Object.values(note.fields)
-                      .map((field) => field.value)
-                      .join(" — ")}
-                  </li>
+                  <Item variant="outline" key={note.noteId}>
+                    <ItemContent>
+                      <ItemDescription>
+                        {Object.values(note.fields)
+                          .map((field) => field.value)
+                          .join(" — ")}
+                      </ItemDescription>
+                    </ItemContent>
+                    <ItemActions>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={
+                          deleteNote.isPending &&
+                          deleteNote.variables === note.noteId
+                        }
+                        onClick={() => deleteNote.mutate(note.noteId)}
+                      >
+                        delete
+                      </Button>
+                    </ItemActions>
+                  </Item>
                 ))}
               </ul>
             </>
