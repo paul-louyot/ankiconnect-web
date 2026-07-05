@@ -157,6 +157,7 @@ function App() {
                       <ItemDescription>
                         {Object.values(note.fields)
                           .map((field) => field.value)
+                          .filter(Boolean)
                           .join(" — ")}
                       </ItemDescription>
                     </ItemContent>
