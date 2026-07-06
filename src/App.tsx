@@ -147,7 +147,7 @@ function App() {
         )}
 
         <div className="flex-1 flex flex-col gap-2 overflow-auto">
-          {notesAddedToday.isFetched && notesAddedToday.data?.length && (
+          {notesAddedToday.isFetched && !!notesAddedToday.data?.length && (
             <>
               <h2>Notes added today</h2>
               <ul className="flex flex-col gap-1">
