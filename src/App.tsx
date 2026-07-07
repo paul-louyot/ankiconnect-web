@@ -1,6 +1,5 @@
 import {useEffect, useRef, useState} from "react";
 import {Button} from "@/components/ui/button";
-import {ConfirmButton} from "@/components/confirm-button";
 import {Input} from "@/components/ui/input";
 import {
   Select,
@@ -9,12 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Item,
-  ItemContent,
-  ItemDescription,
-  ItemActions,
-} from "@/components/ui/item";
+import {NoteItem} from "@/components/note-item";
 import {
   useAnkiConnectionStatus,
   useCreateCard,
@@ -152,29 +146,15 @@ function App() {
               <h2>Notes added today</h2>
               <ul className="flex flex-col gap-1">
                 {notesAddedToday.data.map((note) => (
-                  <Item variant="outline" key={note.noteId}>
-                    <ItemContent>
-                      <ItemDescription>
-                        {Object.values(note.fields)
-                          .map((field) => field.value)
-                          .filter(Boolean)
-                          .join(" — ")}
-                      </ItemDescription>
-                    </ItemContent>
-                    <ItemActions>
-                      <ConfirmButton
-                        variant="outline"
-                        size="sm"
-                        disabled={
-                          deleteNote.isPending &&
-                          deleteNote.variables === note.noteId
-                        }
-                        onConfirm={() => deleteNote.mutate(note.noteId)}
-                      >
-                        delete
-                      </ConfirmButton>
-                    </ItemActions>
-                  </Item>
+                  <NoteItem
+                    key={note.noteId}
+                    note={note}
+                    isDeleting={
+                      deleteNote.isPending &&
+                      deleteNote.variables === note.noteId
+                    }
+                    onDelete={() => deleteNote.mutate(note.noteId)}
+                  />
                 ))}
               </ul>
             </>
