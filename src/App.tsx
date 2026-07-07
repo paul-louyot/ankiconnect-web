@@ -140,7 +140,7 @@ function App() {
           </p>
         )}
 
-        <div className="flex-1 flex flex-col gap-2 overflow-auto">
+        <div className="flex-1 flex flex-col gap-2 overflow-auto px-4">
           {notesAddedToday.isFetched && !!notesAddedToday.data?.length && (
             <>
               <h2>Notes added today</h2>
