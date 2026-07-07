@@ -85,7 +85,7 @@ function App() {
   return (
     <>
       <div className="h-dvh flex flex-col items-center gap-6 p-6">
-        <form className="flex flex-col gap-4 w-80" onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-4 w-100" onSubmit={handleSubmit}>
           <Input
             ref={frontInputRef}
             type="text"
